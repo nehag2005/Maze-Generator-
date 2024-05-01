@@ -4,60 +4,56 @@
  * @brief Code for the maze gen for COMP1921 Assignment 2
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <stdbool.h>
+#include "mazegen.h"
 
-#define EXIT_SUCCESS 0
-#define EXIT_ARG_ERROR 1
-#define EXIT_FILE_ERROR 2
-#define EXIT_MAZE_ERROR 3
-
-#define MAX_SIZE 100
-#define MIN_SIZE 5
-
-#define WALL '#'
-#define SPACE ' '
-#define START 'S'
-#define END 'E'
-
-// To store neighbouring coordinates
-typedef struct
+int main(int argc, char *argv[])
 {
-    int dy;
-    int dx;
-} Neighbour;
+    // Arg check
+    if (argc != 4)
+    {
+        printf("Usage: ./maze <maze_file> <width> <height>\n");
+        return EXIT_ARG_ERROR;
+    }
 
-// Stack
-typedef struct
-{
-    int y;
-    int x;
-} Coordinate;
+    int width = atoi(argv[2]);
+    int height = atoi(argv[3]);
 
-Coordinate stackPath[MAX_SIZE * 2];
-int topOfStack = -1;
+    // Initialise maze ( cells = walls )
+    char maze[202][202];
+
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            maze[i][j] = WALL;
+        }
+    }
+
+    srand(time(NULL));
+
+    mazeGenerator(maze, width, height);
+
+    FILE *mazeFile = fopen(argv[1], "w");
+    if (!mazeFile)
+    {
+        printf("Error: Cannot open file.\n");
+        return EXIT_FILE_ERROR;
+    }
+
+    printMaze(mazeFile, maze, width, height);
+
+    fclose(mazeFile);
+    return EXIT_SUCCESS;
+}
 
 // Functions
 
-/**
- * @brief Increases the top of the stack index and assigns the provided coordinate to the new top position in the stack.
- *
- * @param neighbour The coordinate to be pushed onto the stack.
- */
 void stackPush(Coordinate neighbour)
 {
 
     topOfStack++;
     stackPath[topOfStack] = neighbour;
 }
-
-/**
- * @brief Removes the top element from the stack and returns it.
- *
- * @return Coordinate The coordinate popped from the stack.
- */
 
 Coordinate stackPop()
 {
@@ -66,16 +62,6 @@ Coordinate stackPop()
     topOfStack--;
     return popped;
 }
-
-/**
- * @brief Implements a backtracking algorithm to generate a maze within the given dimensions.
- *
- * @param maze The maze grid.
- * @param w Width of the maze.
- * @param h Height of the maze.
- * @param x Starting x-coordinate.
- * @param y Starting y-coordinate.
- */
 
 void Backtracking(char maze[202][202], int w, int h, int x, int y)
 {
@@ -145,14 +131,6 @@ void Backtracking(char maze[202][202], int w, int h, int x, int y)
     }
 }
 
-/**
- * @brief Generates a maze using a backtracking algorithm and marks the start and end points.
- *
- * @param maze The maze grid.
- * @param w Width of the maze.
- * @param h Height of the maze.
- */
-
 void mazeGenerator(char maze[202][202], int w, int h)
 {
 
@@ -185,15 +163,6 @@ void mazeGenerator(char maze[202][202], int w, int h)
     maze[yEnd][xEnd] = END;
 }
 
-/**
- * @brief Prints the maze grid to a specified file.
- *
- * @param mazeFile Pointer to the file where the maze will be printed.
- * @param maze The maze grid.
- * @param w Width of the maze.
- * @param h Height of the maze.
- */
-
 void printMaze(FILE *mazeFile, char maze[202][202], int w, int h)
 {
     for (int i = 0; i < h; i++)
@@ -204,44 +173,4 @@ void printMaze(FILE *mazeFile, char maze[202][202], int w, int h)
         }
         fprintf(mazeFile, "\n");
     }
-}
-
-int main(int argc, char *argv[])
-{
-    // Arg check
-    if (argc != 4)
-    {
-        printf("Usage: ./maze <maze_file> <width> <height>\n");
-        return EXIT_ARG_ERROR;
-    }
-
-    int width = atoi(argv[2]);
-    int height = atoi(argv[3]);
-
-    // Initialise maze ( cells = walls )
-    char maze[202][202];
-
-    for (int i = 0; i < height; i++)
-    {
-        for (int j = 0; j < width; j++)
-        {
-            maze[i][j] = WALL;
-        }
-    }
-
-    srand(time(NULL));
-
-    mazeGenerator(maze, width, height);
-
-    FILE *mazeFile = fopen(argv[1], "w");
-    if (!mazeFile)
-    {
-        printf("Error: Cannot open file.\n");
-        return EXIT_FILE_ERROR;
-    }
-
-    printMaze(mazeFile, maze, width, height);
-
-    fclose(mazeFile);
-    return EXIT_SUCCESS;
 }
