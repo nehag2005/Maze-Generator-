@@ -24,7 +24,7 @@ This project is a maze generator written in C.
 - **Depth-First Search (DFS)**: Utilized to explore all possible paths from the starting point `S`.
 - **Backtracking**: Used to ensure that dead ends are handled correctly, allowing the algorithm to find a path from `S` to `E`.
 
-### Data Structures
+### Data Structure
 - **Stack Data Structure**: A stack is used to manage the backtracking process during the maze generation.
 
 ## Documentation
