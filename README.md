@@ -4,9 +4,11 @@
 
 This project is a maze generator written in C.
 
-## Compilation/ Run
+## Compilation
 
 gcc mazegen.c -o outputfile
+
+## Run
 ./outputfile <new_maze_file> <width> <height>
 
 ## Features
