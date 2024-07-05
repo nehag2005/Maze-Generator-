@@ -6,10 +6,10 @@ This project is a maze generator written in C.
 
 ## Compilation
 
-gcc mazegen.c -o outputfile
+"gcc mazegen.c -o outputfile"
 
 ## Run
-./outputfile <new_maze_file> <width> <height>
+"./outputfile <new_maze_file> <width> <height>"
 
 ## Features
 
