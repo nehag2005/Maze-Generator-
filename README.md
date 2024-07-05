@@ -4,12 +4,20 @@
 
 This project is a maze generator written in C.
 
-## Compilation
 
-"gcc mazegen.c -o outputfile"
+## To compile the maze generator program, use the following command:
 
-## Run
-"./outputfile <new_maze_file> <width> <height>"
+
+gcc mazegen.c -o outputfile
+
+This command compiles the mazegen.c file and creates an executable named outputfile.
+
+## Running the Program
+To run the compiled program, use the following command:
+
+./outputfile <new_maze_file> <width> <height>
+
+Replace <new_maze_file> with the name of the file where you want to save the generated maze. Replace <width> and <height> with the desired dimensions of the maze.
 
 ## Features
 
