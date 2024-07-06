@@ -5,7 +5,7 @@
 This project is a maze generator written in C.
 
 
-## To compile the maze generator program, use the following command:
+## Compilation :
 
 
 gcc mazegen.c -o outputfile
